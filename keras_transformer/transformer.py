@@ -290,6 +290,7 @@ def get_model(token_num,
               attention_activation=None,
               feed_forward_activation='relu',
               dropout_rate=0.0,
+              mask_zero=True,
               use_same_embed=True,
               embed_weights=None,
               embed_trainable=None,
@@ -305,6 +306,7 @@ def get_model(token_num,
     :param attention_activation: Activation for multi-head self-attention.
     :param feed_forward_activation: Activation for feed-forward layer.
     :param dropout_rate: Dropout rate.
+    :param mask_zero: Whether or not the input value 0 should be masked out of the embedding layers.
     :param use_same_embed: Whether to use the same token embedding layer. `token_num`, `embed_weights` and
                            `embed_trainable` should be lists of two elements if it is False.
     :param embed_weights: Initial weights of token embedding.
@@ -337,7 +339,7 @@ def get_model(token_num,
         encoder_embed_layer = decoder_embed_layer = EmbeddingRet(
             input_dim=encoder_token_num,
             output_dim=embed_dim,
-            mask_zero=True,
+            mask_zero=mask_zero,
             weights=encoder_embed_weights,
             trainable=encoder_embed_trainable,
             name='Token-Embedding',
@@ -346,7 +348,7 @@ def get_model(token_num,
         encoder_embed_layer = EmbeddingRet(
             input_dim=encoder_token_num,
             output_dim=embed_dim,
-            mask_zero=True,
+            mask_zero=mask_zero,
             weights=encoder_embed_weights,
             trainable=encoder_embed_trainable,
             name='Encoder-Token-Embedding',
@@ -354,7 +356,7 @@ def get_model(token_num,
         decoder_embed_layer = EmbeddingRet(
             input_dim=decoder_token_num,
             output_dim=embed_dim,
-            mask_zero=True,
+            mask_zero=mask_zero,
             weights=decoder_embed_weights,
             trainable=decoder_embed_trainable,
             name='Decoder-Token-Embedding',
